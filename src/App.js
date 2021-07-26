@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import './App.css';
 
 export default function App() {
-  const [result, setResult] = useState("");
   const [data, setData] = useState("");
   const [inputValue, setInputValue] = useState("");
 
   const callData = async () => {
     await fetch("https://api.nationalize.io/?name=nathaniel").then((res) => res.json()).then((res, err) => {
-      console.log(res);
       setData(res);
     });
   };
@@ -18,7 +16,6 @@ export default function App() {
 
   const getInputData = (e) => {
     let value = document.getElementById("dataInput").value;
-    // value = value.split("");
     setInputValue([...value]);
     console.log(inputValue)
   };
