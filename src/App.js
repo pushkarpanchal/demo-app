@@ -1,25 +1,67 @@
-import logo from './logo.svg';
+import { useEffect, useState } from "react";
 import './App.css';
 
-function App() {
+export default function App() {
+  const [result, setResult] = useState("");
+  const [data, setData] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
+  const callData = async () => {
+    await fetch("https://api.nationalize.io/?name=nathaniel").then((res) => res.json()).then((res, err) => {
+      console.log(res);
+      setData(res);
+    });
+  };
+  useEffect(() => {
+    callData();
+  }, []);
+
+  const getInputData = (e) => {
+    let value = document.getElementById("dataInput").value;
+    // value = value.split("");
+    setInputValue([...value]);
+    console.log(inputValue)
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h1>{data.name}</h1>
+      <div className="grid">
+        {data.country.map((item, index) => (
+          <div key={index} className="child">
+            <div>
+              <b>country : {item.country_id}</b>
+            </div>
+            <p>probability : {item.probability}</p>
+          </div>
+        ))}
+      </div>
+      <div className="input-container">
+      <div className="inputDataCheck">
+        <p>Please enter name</p>
+        <input type="text" id="dataInput" />
+        <button
+          onClick={() => {
+            getInputData();
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          get
+        </button>
+      </div>
+      <div>
+        {inputValue.length > 0 ? (
+          <div style={{ marginTop: 20 }}>
+            <div className="grid">
+              {inputValue.map((item, index) => {
+                return <div className="child">
+                  <p>{item}</p>
+                </div>;
+              })}
+            </div>
+          </div>
+        ) : null}
+      </div>
+      </div>
     </div>
   );
 }
-
-export default App;
