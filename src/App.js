@@ -22,7 +22,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>{data.name}</h1>
+      {data ? (<div>
+        <h1>{data.name}</h1>
       <div className="grid">
         {data.country.map((item, index) => (
           <div key={index} className="child">
@@ -33,6 +34,7 @@ export default function App() {
           </div>
         ))}
       </div>
+      </div>): null}
       <div className="input-container">
       <div className="inputDataCheck">
         <p>Please enter name</p>
